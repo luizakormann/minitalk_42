@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:44:30 by lukorman          #+#    #+#             */
-/*   Updated: 2025/02/05 19:33:54 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/02/12 21:01:58 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 
+// são 2 execs, mas a principio pode ser 1 cabeçalho só, verificar
 //include ftprintf
 //include libft
 
