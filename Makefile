@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/10/16 17:11:20 by lukorman          #+#    #+#              #
-#    Updated: 2025/02/05 19:45:23 by lukorman         ###   ########.fr        #
+#    Created: 2025/02/13 21:14:14 by lukorman          #+#    #+#              #
+#    Updated: 2025/02/14 01:27:36 by lukorman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,77 +14,139 @@
 #                               configuration                                  #
 # **************************************************************************** #
 
+# common comp
 CC	= cc
 CFLAGS	= -Wall -Wextra -Werror
 RM	= rm -rf
-NAME	= $(BIN_DIR)libft.a
+
+# link libft
+FINDLIBFT	= -L$(LIB_DIR)
+LINKLIB	= -lft
 
 # **************************************************************************** #
-#                                    paths                                     #
+#                                directories                                   #
 # **************************************************************************** #
 
+# common
+INC_DIR	= include/
+LIB_DIR	= lib/libft_42
 OBJ_DIR	= obj/
-SRC_DIR = src/
-BIN_DIR = bin/
-INC_DIR = include/
+
+# mandatory
+SRC_DIR_SERVER	= src/server
+SRC_DIR_CLIENT	= src/client
+OBJ_DIR_SERVER	= obj/server
+OBJ_DIR_CLIENT	= obj/client
+BIN_DIR	= bin/mandatory
+
+# bonus
+SRC_DIR_BONUS	= src/bonus
+BIN_DIR_BONUS	= bin/bonus
+OBJ_DIR_BONUS	= obj/bonus
 
 # **************************************************************************** #
 #                                   files                                      #
 # **************************************************************************** #
 
-SRC_FILES	= $(addprefix $(SRC_DIR), ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c\
-ft_strlen.c ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c ft_strlcpy.c\
-ft_strlcat.c ft_toupper.c ft_tolower.c ft_strchr.c ft_strrchr.c ft_strncmp.c\
-ft_memchr.c ft_memcmp.c ft_strnstr.c ft_atoi.c ft_calloc.c ft_strdup.c\
-ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c\
-ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c)
-SRC_BONUS	= $(addprefix $(SRC_DIR), ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c\
-ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c\
-ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c)
-OBJS_FILES	= $(notdir $(SRC_FILES:.c=.o))
-OBJS_BONUS	= $(notdir $(SRC_BONUS:.c=.o))
-ALL_OBJS	= $(OBJS_FILES) $(OBJS_BONUS)
+# libft
+LIBFT = $(addprefix $(LIB_DIR), libft.a)
+
+# headers
+HEADERS = $(shell find $(INC_DIR) -name '*.h')
+
+# executables mandatory
+NAME_SERVER	= $(BIN_DIR)server
+NAME_CLIENT	= $(BIN_DIR)client
+
+# executables bonus
+NAME_S_BONUS	= $(BIN_DIR_BONUS)b_server
+NAME_C_BONUS	= $(BIN_DIR_BONUS)b_client
+
+# sources
+SRC_SERVER	= $(addprefix $(SRC_DIR_SERVER), server.c)
+SRC_CLIENT	= $(addprefix $(SRC_DIR_CLIENT), client.c)
+SRC_B_SERVER	= $(addprefix $(SRC_DIR_BONUS), server_bonus.c)
+SRC_B_CLIENT	= $(addprefix $(SRC_DIR_BONUS), client_bonus.c)
+
+# objects
+OBJS_SERVER = $(addprefix $(OBJ_DIR_SERVER)/, $(notdir $(SRC_SERVER:.c=.o)))
+OBJS_CLIENT = $(addprefix $(OBJ_DIR_CLIENT)/, $(notdir $(SRC_CLIENT:.c=.o)))
+OBJS_B_CLIENT	= $(addprefix $(OBJ_DIR_BONUS)/, $(notdir $(SRC_B_CLIENT:.c=.o)))
+OBJS_B_SERVER	= $(addprefix $(OBJ_DIR_BONUS)/, $(notdir $(SRC_B_SERVER:.c=.o)))
+ALL_OBJS	= $(OBJS_CLIENT) $(OBJS_SERVER) $(OBJS_B_CLIENT) $(OBJS_B_SERVER)
 
 # **************************************************************************** #
 #                              compile commands                                #
 # **************************************************************************** #
 
-AR	:= ar -rcs
-COMPILE_LIB_FILES	= $(AR) $(NAME) $(addprefix $(OBJ_DIR), $(OBJS_FILES))
-COMPILE_LIB_BONUS	= $(AR) $(NAME) $(addprefix $(OBJ_DIR), $(ALL_OBJS))
-CREATE_LIB	= $(AR) $(NAME) $(addprefix $(OBJ_DIR), $(OBJS_FILES))
+COMP_OBJS	= $(CC) $(CFLAGS) -c $< -o $@
+COMP_SERVER	= $(CC) $(CFLAGS) $(FINDLIBFT) $(OBJS_SERVER) $(LINKLIB) \
+	-o $(NAME_SERVER)
+COMP_CLIENT	= $(CC) $(CFLAGS) $(FINDLIBFT) $(OBJS_CLIENT) $(LINKLIB) \
+	-o $(NAME_CLIENT)
 
 # **************************************************************************** #
-#                                 check relink                                 #
+#                                 verifications                                #
 # **************************************************************************** #
 
-ifeq ($(findstring bonus,$(MAKECMDGOALS)),bonus)
-	OBJS += $(OBJS_BONUS)
+# bonus
+ifdef BONUS_TIME
+	NAME_SERVER	= $(NAME_S_BONUS)
+	NAME_CLIENT	= $(NAME_C_BONUS)
+	SRC_SERVER	= $(SRC_B_SERVER)
+	SRC_CLIENT	= $(SRC_B_CLIENT)
+	OBJS_SERVER	= $(OBJS_B_SERVER)
+	OBJS_CLIENT	= $(OBJS_B_CLIENT)
 endif
+
+# relink - not necessary to minitalk
+#ifeq ($(findstring bonus,$(MAKECMDGOALS)),bonus)
+#	OBJS += $(OBJS_BONUS)
+#endif
+
+# **************************************************************************** #
+#                                  defines                                     #
+# **************************************************************************** #
+
+define time_for_bonus
+	$(MAKE) $(MAKEFLAGS) BONUS_TIME=TRUE
+endef
 
 # **************************************************************************** #
 #                                  targets                                     #
 # **************************************************************************** #
 
-all: $(NAME)
+all: $(NAME_SERVER) $(NAME_CLIENT)
 
-%.o: $(SRC_DIR)%.c
-	mkdir -p $(OBJ_DIR)
-	$(CREATE_LIB)
+$(OBJ_DIR_SERVER)%.o: $(SRC_DIR_SERVER)%.c $(HEADERS)
+	mkdir -p $(OBJ_DIR_SERVER)
+	$(COMP_OBJS)
 
-$(NAME): $(OBJS_FILES)
+$(OBJ_DIR_CLIENT)%.o: $(SRC_DIR_CLIENT)%.c $(HEADERS)
+	mkdir -p $(OBJ_DIR_CLIENT)
+	$(COMP_OBJS)
+
+$(NAME_SERVER): $(LIBFT) $(OBJS_SERVER)
 	mkdir -p $(BIN_DIR)
-	$(COMPILE_LIB_FILES)
+	$(COMP_SERVER)
 
-bonus: $(ALL_OBJS)
-	$(COMPILE_LIB_BONUS)
+$(NAME_CLIENT): $(LIBFT) $(OBJS_CLIENT)
+	mkdir -p $(BIN_DIR)
+	$(COMP_CLIENT)
+
+$(LIBFT):
+	$(MAKE) -C $(LIB_DIR) all
+
+bonus:
+	$(call time_for_bonus)
 
 clean:
 	$(RM) $(OBJ_DIR)
 
 fclean: clean
 	$(RM) $(BIN_DIR)
+	$(MAKE) -C $(LIB_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
