@@ -6,7 +6,7 @@
 #    By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 21:14:14 by lukorman          #+#    #+#              #
-#    Updated: 2025/02/14 01:27:36 by lukorman         ###   ########.fr        #
+#    Updated: 2025/02/14 17:46:34 by lukorman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,6 @@ OBJS_SERVER = $(addprefix $(OBJ_DIR_SERVER)/, $(notdir $(SRC_SERVER:.c=.o)))
 OBJS_CLIENT = $(addprefix $(OBJ_DIR_CLIENT)/, $(notdir $(SRC_CLIENT:.c=.o)))
 OBJS_B_CLIENT	= $(addprefix $(OBJ_DIR_BONUS)/, $(notdir $(SRC_B_CLIENT:.c=.o)))
 OBJS_B_SERVER	= $(addprefix $(OBJ_DIR_BONUS)/, $(notdir $(SRC_B_SERVER:.c=.o)))
-ALL_OBJS	= $(OBJS_CLIENT) $(OBJS_SERVER) $(OBJS_B_CLIENT) $(OBJS_B_SERVER)
 
 # **************************************************************************** #
 #                              compile commands                                #
