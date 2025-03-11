@@ -3,19 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:47:44 by lukorman          #+#    #+#             */
-/*   Updated: 2025/02/12 21:11:43 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:12:50 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minitalk.h"
+#include "../../include/minitalk.h"
 
-// PARAMETERS TO BE TAKEN -> argc != 3 return message error:
-	// serves pid -> server prints pid. user inputs pid as frst arg
-		//validate pid as a str composed by digits. if not, return message error
-	// string to send -> second argv recieved
+int	g_bit_received = FALSE;
 
-// client needs to send the string passed as parameter to the server
+int	is_valid_pid(int pid)
+{
+	if (pid <= 0)
+	{
+		ft_printf("Error: Invalid PID (non-positive)\n", 2);
+		return (FALSE);
+	}
+	if (kill(pid, 0) == -1)
+	{
+		ft_printf("Error: Cannot send signal to this PID\n", 2);
+		return (FALSE);
+	}
+	return (TRUE);
+}
 
+void	handler(int sign)
+{
+	if (sign == SIGUSR1)
+		g_bit_received = TRUE;
+}
+
+void	transmit_message(int pid, char *str, size_t len_str)
+{
+	size_t		i_str;
+	int			bit_from_caracter;
+
+	i_str = 0;
+	while (i_str <= len_str)
+	{
+		bit_from_caracter = 0;
+		while (bit_from_caracter < 8)
+		{
+			if ((str[i_str] >> bit_from_caracter) & 1)
+				kill(pid, SIGUSR2);
+			else
+				kill(pid, SIGUSR1);
+			bit_from_caracter++;
+			sleep(10000);
+			while (!g_bit_received)
+				;
+			g_bit_received = FALSE;
+		}
+		i_str++;
+	}
+}
+
+int	main(int argc, char **argv)
+{
+	int					pid_server;
+	struct sigaction	sign_client;
+
+	if (argc == 3)
+	{
+		pid_server = ft_atoi(argv[1]);
+		sign_client.sa_handler = handler;
+		sign_client.sa_flags = 0;
+		sigemptyset(&sign_client.sa_mask);
+		sigaction(SIGUSR1, &sign_client, NULL);
+		transmit_message(pid_server, argv[2], ft_strlen(argv[2]));
+	}
+	else
+		ft_printf("Something is missing: ./client, <PID>, <message>\n", 1);
+	return (0);
+}
