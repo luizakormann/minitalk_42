@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+         #
+#    By: luiza <luiza@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 21:14:14 by lukorman          #+#    #+#              #
-#    Updated: 2025/02/14 17:46:34 by lukorman         ###   ########.fr        #
+#    Updated: 2025/03/11 19:55:56 by luiza            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,13 @@
 
 # common comp
 CC	= cc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -I$(LIB_DIR)/libft/include
 RM	= rm -rf
 
 # link libft
-FINDLIBFT	= -L$(LIB_DIR)
-LINKLIB	= -lft
+LIBFT = $(LIB_DIR)/libft.a
+FINDLIBFT = -L$(LIB_DIR)
+LINKLIB = -lft
 
 # **************************************************************************** #
 #                                directories                                   #
@@ -29,27 +30,24 @@ LINKLIB	= -lft
 
 # common
 INC_DIR	= include/
-LIB_DIR	= lib/libft_42
+LIB_DIR = libft/libft/bin/
 OBJ_DIR	= obj/
 
 # mandatory
-SRC_DIR_SERVER	= src/server
-SRC_DIR_CLIENT	= src/client
-OBJ_DIR_SERVER	= obj/server
-OBJ_DIR_CLIENT	= obj/client
-BIN_DIR	= bin/mandatory
+SRC_DIR_SERVER	= src/server/
+SRC_DIR_CLIENT	= src/client/
+OBJ_DIR_SERVER	= obj/server/
+OBJ_DIR_CLIENT	= obj/client/
+BIN_DIR	= bin/mandatory/
 
 # bonus
-SRC_DIR_BONUS	= src/bonus
-BIN_DIR_BONUS	= bin/bonus
-OBJ_DIR_BONUS	= obj/bonus
+SRC_DIR_BONUS	= src/bonus/
+BIN_DIR_BONUS	= bin/bonus/
+OBJ_DIR_BONUS	= obj/bonus/
 
 # **************************************************************************** #
 #                                   files                                      #
 # **************************************************************************** #
-
-# libft
-LIBFT = $(addprefix $(LIB_DIR), libft.a)
 
 # headers
 HEADERS = $(shell find $(INC_DIR) -name '*.h')
@@ -65,7 +63,7 @@ NAME_C_BONUS	= $(BIN_DIR_BONUS)b_client
 # sources
 SRC_SERVER	= $(addprefix $(SRC_DIR_SERVER), server.c)
 SRC_CLIENT	= $(addprefix $(SRC_DIR_CLIENT), client.c)
-SRC_B_SERVER	= $(addprefix $(SRC_DIR_BONUS), server_bonus.c)
+SRC_B_SERVER	= $(addprefix $(SRC_DIR_BONUS)/, server_bonus.c)
 SRC_B_CLIENT	= $(addprefix $(SRC_DIR_BONUS), client_bonus.c)
 
 # objects
@@ -98,11 +96,6 @@ ifdef BONUS_TIME
 	OBJS_CLIENT	= $(OBJS_B_CLIENT)
 endif
 
-# relink - not necessary to minitalk
-#ifeq ($(findstring bonus,$(MAKECMDGOALS)),bonus)
-#	OBJS += $(OBJS_BONUS)
-#endif
-
 # **************************************************************************** #
 #                                  defines                                     #
 # **************************************************************************** #
@@ -115,7 +108,7 @@ endef
 #                                  targets                                     #
 # **************************************************************************** #
 
-all: $(NAME_SERVER) $(NAME_CLIENT)
+all: git_submodule $(LIBFT) $(NAME_SERVER) $(NAME_CLIENT)
 
 $(OBJ_DIR_SERVER)%.o: $(SRC_DIR_SERVER)%.c $(HEADERS)
 	mkdir -p $(OBJ_DIR_SERVER)
@@ -135,6 +128,9 @@ $(NAME_CLIENT): $(LIBFT) $(OBJS_CLIENT)
 
 $(LIBFT):
 	$(MAKE) -C $(LIB_DIR) all
+
+git_submodule:
+	git submodule update --init --recursive
 
 bonus:
 	$(call time_for_bonus)
