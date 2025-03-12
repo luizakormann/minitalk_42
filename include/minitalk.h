@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:44:30 by lukorman          #+#    #+#             */
-/*   Updated: 2025/03/11 19:15:23 by luiza            ###   ########.fr       */
+/*   Updated: 2025/03/12 20:32:09 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include <signal.h>
 # include <stdlib.h>
 # include "../libft/libft/include/libft.h"
-# include "../libft/libft/include/ft_printf.h"
-# include "../libft/libft/include/get_next_line.h"
 
 # define TRUE 1
 # define FALSE 0
