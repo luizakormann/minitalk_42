@@ -6,7 +6,7 @@
 #    By: luiza <luiza@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 21:14:14 by lukorman          #+#    #+#              #
-#    Updated: 2025/03/11 19:55:56 by luiza            ###   ########.fr        #
+#    Updated: 2025/03/12 20:28:43 by luiza            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,8 @@ CFLAGS	= -Wall -Wextra -Werror -I$(LIB_DIR)/libft/include
 RM	= rm -rf
 
 # link libft
-LIBFT = $(LIB_DIR)/libft.a
-FINDLIBFT = -L$(LIB_DIR)
+LIBFT = $(LIB_DIR)/bin/libft.a
+FINDLIBFT = -L$(LIB_DIR)/bin
 LINKLIB = -lft
 
 # **************************************************************************** #
@@ -30,7 +30,7 @@ LINKLIB = -lft
 
 # common
 INC_DIR	= include/
-LIB_DIR = libft/libft/bin/
+LIB_DIR = libft/libft/
 OBJ_DIR	= obj/
 
 # mandatory
