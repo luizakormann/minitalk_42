@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:47:44 by lukorman          #+#    #+#             */
-/*   Updated: 2025/03/12 21:31:23 by luiza            ###   ########.fr       */
+/*   Updated: 2025/03/12 21:42:28 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,20 @@ int	main(int argc, char **argv)
 	if (argc == 3)
 	{
 		pid_server = ft_atoi(argv[1]);
+		if (!validate_pid(pid_server))
+			return (1);
+		ft_printf("Sending message...\n");
 		sign_client.sa_handler = handler;
 		sign_client.sa_flags = 0;
 		sigemptyset(&sign_client.sa_mask);
 		sigaction(SIGUSR1, &sign_client, NULL);
 		transmit_message(pid_server, argv[2], ft_strlen(argv[2]));
+		ft_printf("Message sent successfully!\n");
 	}
 	else
 	{
 		ft_printf("Something is missing!\n");
-		ft_printf("The correct init:./client, <server's PID>, <message>\n");
+		ft_printf("The correct init: ./client, <server's PID>, <message>\n");
 	}
 	return (0);
 }
