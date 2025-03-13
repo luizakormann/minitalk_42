@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:47:44 by lukorman          #+#    #+#             */
-/*   Updated: 2025/03/12 21:23:04 by luiza            ###   ########.fr       */
+/*   Updated: 2025/03/12 21:31:23 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ int	main(int argc, char **argv)
 		transmit_message(pid_server, argv[2], ft_strlen(argv[2]));
 	}
 	else
-		ft_printf("Something is missing: ./client, <PID>, <message>\n");
+	{
+		ft_printf("Something is missing!\n");
+		ft_printf("The correct init:./client, <server's PID>, <message>\n");
+	}
 	return (0);
 }
