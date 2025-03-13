@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:47:44 by lukorman          #+#    #+#             */
-/*   Updated: 2025/03/11 19:12:50 by luiza            ###   ########.fr       */
+/*   Updated: 2025/03/12 21:10:45 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_bit_received = FALSE;
 
-int	is_valid_pid(int pid)
+int	validate_pid(int pid)
 {
 	if (pid <= 0)
 	{
@@ -23,7 +23,7 @@ int	is_valid_pid(int pid)
 	}
 	if (kill(pid, 0) == -1)
 	{
-		ft_printf("Error: Cannot send signal to this PID\n", 2);
+		ft_printf("Cannot send signal. Check if server is running.\n", 2);
 		return (FALSE);
 	}
 	return (TRUE);
