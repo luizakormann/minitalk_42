@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:47:44 by lukorman          #+#    #+#             */
-/*   Updated: 2025/03/12 21:10:45 by luiza            ###   ########.fr       */
+/*   Updated: 2025/03/12 21:23:04 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ int	validate_pid(int pid)
 {
 	if (pid <= 0)
 	{
-		ft_printf("Error: Invalid PID (non-positive)\n", 2);
+		ft_printf("Error: Invalid PID (non-positive)\n");
 		return (FALSE);
 	}
 	if (kill(pid, 0) == -1)
 	{
-		ft_printf("Cannot send signal. Check if server is running.\n", 2);
+		ft_printf("Cannot send signal. Check if server is running.\n");
 		return (FALSE);
 	}
 	return (TRUE);
@@ -51,9 +51,9 @@ void	transmit_message(int pid, char *str, size_t len_str)
 			else
 				kill(pid, SIGUSR1);
 			bit_from_caracter++;
-			sleep(10000);
+			sleep(100);
 			while (!g_bit_received)
-				;
+				pause();
 			g_bit_received = FALSE;
 		}
 		i_str++;
@@ -75,6 +75,6 @@ int	main(int argc, char **argv)
 		transmit_message(pid_server, argv[2], ft_strlen(argv[2]));
 	}
 	else
-		ft_printf("Something is missing: ./client, <PID>, <message>\n", 1);
+		ft_printf("Something is missing: ./client, <PID>, <message>\n");
 	return (0);
 }

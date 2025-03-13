@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:47:35 by lukorman          #+#    #+#             */
-/*   Updated: 2025/03/11 20:00:41 by luiza            ###   ########.fr       */
+/*   Updated: 2025/03/12 21:23:20 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	main(void)
 	sign_server.sa_sigaction = process_signal;
 	sign_server.sa_flags = SA_SIGINFO;
 	pid = getpid();
-	ft_printf("*** THE SERVER HAS BEEN STARTED ***\n", 1);
-	ft_printf("Now copy it's PID number into the client so we can talk: ", 1);
+	ft_printf("*** THE SERVER HAS BEEN STARTED ***\n");
+	ft_printf("Now copy it's PID number into the client so we can talk: ");
 	ft_putnbr_fd(pid, 1);
 	ft_printf("\n", 1);
 	sigaction(SIGUSR1, &sign_server, NULL);
