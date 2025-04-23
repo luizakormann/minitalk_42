@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: luiza <luiza@student.42.fr>                +#+  +:+       +#+         #
+#    By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 21:14:14 by lukorman          #+#    #+#              #
-#    Updated: 2025/03/12 20:28:43 by luiza            ###   ########.fr        #
+#    Updated: 2025/04/23 17:36:37 by lukorman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,17 +32,17 @@ LINKLIB = -lft
 INC_DIR	= include/
 LIB_DIR = libft/libft/
 OBJ_DIR	= obj/
+BIN_DIR	= bin/
 
 # mandatory
 SRC_DIR_SERVER	= src/server/
 SRC_DIR_CLIENT	= src/client/
 OBJ_DIR_SERVER	= obj/server/
 OBJ_DIR_CLIENT	= obj/client/
-BIN_DIR	= bin/mandatory/
 
 # bonus
-SRC_DIR_BONUS	= src/bonus/
-BIN_DIR_BONUS	= bin/bonus/
+SRC_DIR_BONUS_S	= src/bonus/server
+SRC_DIR_BONUS_C	= src/bonus/client
 OBJ_DIR_BONUS	= obj/bonus/
 
 # **************************************************************************** #
@@ -57,20 +57,20 @@ NAME_SERVER	= $(BIN_DIR)server
 NAME_CLIENT	= $(BIN_DIR)client
 
 # executables bonus
-NAME_S_BONUS	= $(BIN_DIR_BONUS)b_server
-NAME_C_BONUS	= $(BIN_DIR_BONUS)b_client
+NAME_S_BONUS	= $(BIN_DIR)b_server
+NAME_C_BONUS	= $(BIN_DIR)b_client
 
 # sources
 SRC_SERVER	= $(addprefix $(SRC_DIR_SERVER), server.c)
 SRC_CLIENT	= $(addprefix $(SRC_DIR_CLIENT), client.c)
-SRC_B_SERVER	= $(addprefix $(SRC_DIR_BONUS)/, server_bonus.c)
-SRC_B_CLIENT	= $(addprefix $(SRC_DIR_BONUS), client_bonus.c)
+SRC_B_SERVER	= $(addprefix $(SRC_DIR_BONUS_S)/, server_bonus.c)
+SRC_B_CLIENT	= $(addprefix $(SRC_DIR_BONUS_C)/, client_bonus.c)
 
 # objects
 OBJS_SERVER = $(addprefix $(OBJ_DIR_SERVER)/, $(notdir $(SRC_SERVER:.c=.o)))
 OBJS_CLIENT = $(addprefix $(OBJ_DIR_CLIENT)/, $(notdir $(SRC_CLIENT:.c=.o)))
-OBJS_B_CLIENT	= $(addprefix $(OBJ_DIR_BONUS)/, $(notdir $(SRC_B_CLIENT:.c=.o)))
-OBJS_B_SERVER	= $(addprefix $(OBJ_DIR_BONUS)/, $(notdir $(SRC_B_SERVER:.c=.o)))
+OBJS_B_CLIENT	= $(addprefix $(OBJ_DIR_BONUS), $(notdir $(SRC_B_CLIENT:.c=.o)))
+OBJS_B_SERVER	= $(addprefix $(OBJ_DIR_BONUS), $(notdir $(SRC_B_SERVER:.c=.o)))
 
 # **************************************************************************** #
 #                              compile commands                                #
@@ -81,6 +81,7 @@ COMP_SERVER	= $(CC) $(CFLAGS) $(FINDLIBFT) $(OBJS_SERVER) $(LINKLIB) \
 	-o $(NAME_SERVER)
 COMP_CLIENT	= $(CC) $(CFLAGS) $(FINDLIBFT) $(OBJS_CLIENT) $(LINKLIB) \
 	-o $(NAME_CLIENT)
+
 
 # **************************************************************************** #
 #                                 verifications                                #
@@ -118,6 +119,14 @@ $(OBJ_DIR_CLIENT)%.o: $(SRC_DIR_CLIENT)%.c $(HEADERS)
 	mkdir -p $(OBJ_DIR_CLIENT)
 	$(COMP_OBJS)
 
+$(OBJ_DIR_BONUS)%.o: src/bonus/server/%.c $(HEADERS)
+	mkdir -p $(OBJ_DIR_BONUS)
+	$(COMP_OBJS)
+
+$(OBJ_DIR_BONUS)%.o: src/bonus/client/%.c $(HEADERS)
+	mkdir -p $(OBJ_DIR_BONUS)
+	$(COMP_OBJS)
+
 $(NAME_SERVER): $(LIBFT) $(OBJS_SERVER)
 	mkdir -p $(BIN_DIR)
 	$(COMP_SERVER)
@@ -144,4 +153,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re bonus git_submodule
