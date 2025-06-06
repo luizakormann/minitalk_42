@@ -31,9 +31,9 @@ The **client** sends messages to the **server** using Unix signals (`SIGUSR1` an
 ### 🔨 Compile the project:
 Use the `Makefile` to compile and manage the project:
 ```
-make
+make (# 1)
 ```
-> you can also use make bonus once both are iddentical. see more @ key learnings section below (1)
+> \# 1: you can also use make bonus once both are iddentical. see more about this topic @ key learnings section below (1)
 
 This will generate the execs in the `bin/` directory:
  - `bin/server`
@@ -43,10 +43,11 @@ This will generate the execs in the `bin/` directory:
 | Command | Description |
 |---------|-----------|
 |`make` or `make all`|Recursively updates and compiles the `libft` library and the project executables.|
-|`make bonus`|Will trigger `time_for_bonus` macro, compiling with the BONUS_TIME=TRUE flag.|          `#see more @ key learnings section below (2)` 
+|`make bonus`|Will trigger `time_for_bonus` macro, compiling with the BONUS_TIME=TRUE flag. (# 2)|
 |`make clean`|Removes object files (`.o`).|
 |`make fclean`|Removes obj files and the compiled lib (`libft.a`) and execs.|
 |`make re`|Recompiles everything from scratch.|
+>  \# 2: see more about this @ key learnings section below (2) 
 
 ### How to Use
  1. **Start the server**
