@@ -31,8 +31,10 @@ The **client** sends messages to the **server** using Unix signals (`SIGUSR1` an
 ### 🔨 Compile the project:
 Use the `Makefile` to compile and manage the project:
 ```
-make          # you can also use make bonus once both are iddentical. see more @ key learnings section below (1)
+make
 ```
+> you can also use make bonus once both are iddentical. see more @ key learnings section below (1)
+
 This will generate the execs in the `bin/` directory:
  - `bin/server`
  - `bin/client`
