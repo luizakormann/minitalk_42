@@ -1,6 +1,6 @@
 # 📡 minitalk
 
-Minitalk is a project from **42 São Paulo**
+Minitalk is a project from **42 São Paulo**  
 A small message-based communication system using Unix signals.
 
 ## 📖 Overview
